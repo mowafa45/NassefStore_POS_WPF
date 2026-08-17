@@ -1,0 +1,179 @@
+<Page x:Class="NassefStore.Views.Customers.CustomersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Background="#F5F5F5" FlowDirection="RightToLeft">
+    <Grid Margin="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="260"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ═══ تفاصيل العميل ═══ -->
+        <Grid Grid.Column="0" Margin="0,0,12,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- بطاقة الإجماليات -->
+            <materialDesign:Card Grid.Row="0" Padding="16" Margin="0,0,0,12"
+                                 UniformCornerRadius="8" x:Name="InfoCard" Visibility="Collapsed">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Background="#FFEBEE" CornerRadius="8"
+                            Padding="12,8" Margin="0,0,8,0">
+                        <StackPanel>
+                            <TextBlock Text="المتبقي" FontSize="10" Foreground="#757575"/>
+                            <TextBlock x:Name="TxtBalance" FontSize="16" FontWeight="Bold" Foreground="#C62828"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="1" Background="#E8F5E9" CornerRadius="8"
+                            Padding="12,8" Margin="0,0,8,0">
+                        <StackPanel>
+                            <TextBlock Text="المدفوع" FontSize="10" Foreground="#757575"/>
+                            <TextBlock x:Name="TxtPaid" FontSize="16" FontWeight="Bold" Foreground="#2E7D32"/>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="2" Background="#E3F2FD" CornerRadius="8"
+                            Padding="12,8" Margin="0,0,8,0">
+                        <StackPanel>
+                            <TextBlock Text="إجمالي المشتريات" FontSize="10" Foreground="#757575"/>
+                            <TextBlock x:Name="TxtTotal" FontSize="16" FontWeight="Bold" Foreground="#1565C0"/>
+                        </StackPanel>
+                    </Border>
+                    <StackPanel Grid.Column="3" HorizontalAlignment="Right">
+                        <TextBlock x:Name="CustomerName" FontSize="20" FontWeight="Bold"
+                                   Foreground="{StaticResource PrimaryBrush}"/>
+                        <TextBlock x:Name="CustomerPhone" Foreground="#757575"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+
+            <!-- أزرار الإجراءات -->
+            <materialDesign:Card Grid.Row="1" Padding="12" Margin="0,0,0,12"
+                                 UniformCornerRadius="8" x:Name="ActionsCard" Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="💰 تسجيل دفعة آجل"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Background="{StaticResource SuccessBrush}"
+                            Click="AddPayment_Click"/>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- جدول المبيعات -->
+            <materialDesign:Card Grid.Row="2" Padding="16" UniformCornerRadius="8"
+                                 x:Name="SalesCard" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock Text="سجل المشتريات" Style="{StaticResource SectionTitle}"/>
+                    <DataGrid x:Name="SalesGrid" AutoGenerateColumns="False"
+                              IsReadOnly="True" CanUserAddRows="False"
+                              GridLinesVisibility="Horizontal"
+                              Style="{StaticResource MaterialDesignDataGrid}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="الفاتورة"
+                                               Binding="{Binding InvoiceNumber}" Width="130"/>
+                            <DataGridTextColumn Header="التاريخ" Width="90">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="SaleDate" StringFormat="dd/MM/yyyy"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="الدفع"
+                                               Binding="{Binding PaymentMethod}" Width="90"/>
+                            <DataGridTextColumn Header="الإجمالي" Width="120">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="NetAmount" StringFormat="{}{0:N2} ج"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="المدفوع" Width="110">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="PaidAmount" StringFormat="{}{0:N2} ج"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="المتبقي" Width="110">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="RemainingAmount" StringFormat="{}{0:N2} ج"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- Placeholder -->
+            <materialDesign:Card Grid.Row="0" Grid.RowSpan="3" Padding="40"
+                                 UniformCornerRadius="8" x:Name="PlaceholderCard">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="AccountCircle" Width="64" Height="64"
+                                             Foreground="#BDBDBD" HorizontalAlignment="Center"/>
+                    <TextBlock Text="اختر عميلاً لعرض حساباته"
+                               Foreground="#9E9E9E" FontSize="16" Margin="0,16,0,0"/>
+                </StackPanel>
+            </materialDesign:Card>
+        </Grid>
+
+        <!-- ═══ قائمة العملاء ═══ -->
+        <materialDesign:Card Grid.Column="1" Padding="16" UniformCornerRadius="8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="العملاء" Style="{StaticResource SectionTitle}"/>
+
+                <TextBox Grid.Row="1" x:Name="SearchBox"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         materialDesign:HintAssist.Hint="🔍 بحث..."
+                         TextChanged="Search_Changed" Margin="0,0,0,8"/>
+
+                <!-- قائمة العملاء مع تعديل / حذف -->
+                <ListBox Grid.Row="2" x:Name="CustomersList"
+                         SelectionChanged="CustomersList_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13"/>
+                                    <TextBlock Text="{Binding Phone}" Foreground="#9E9E9E" FontSize="11"/>
+                                </StackPanel>
+                                <Button Grid.Column="1"
+                                        Style="{StaticResource MaterialDesignIconButton}"
+                                        Width="28" Height="28"
+                                        Click="EditCustomer_Click" Tag="{Binding}"
+                                        ToolTip="تعديل">
+                                    <materialDesign:PackIcon Kind="Pencil" Width="14" Height="14"/>
+                                </Button>
+                                <Button Grid.Column="2"
+                                        Style="{StaticResource MaterialDesignIconButton}"
+                                        Width="28" Height="28"
+                                        Click="DeleteCustomer_Click" Tag="{Binding}"
+                                        ToolTip="حذف">
+                                    <materialDesign:PackIcon Kind="Delete" Width="14" Height="14"
+                                                             Foreground="#C62828"/>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Button Grid.Row="3" Content="+ إضافة عميل" Margin="0,8,0,0"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Click="AddCustomer_Click"/>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
+</Page>

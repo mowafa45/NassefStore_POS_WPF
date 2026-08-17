@@ -1,0 +1,46 @@
+<Page x:Class="NassefStore.Views.Returns.ReturnsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Background="#F5F5F5" FlowDirection="RightToLeft">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <materialDesign:Card Grid.Row="0" Padding="12" Margin="0,0,0,12" UniformCornerRadius="8">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="+ مرتجع للمورد" Style="{StaticResource MaterialDesignRaisedButton}"
+                        Background="{StaticResource AccentBrush}" Foreground="Black"
+                        Click="ReturnToSupplier_Click" Margin="0,0,8,0"/>
+                <Button Content="+ مرتجع من عميل" Style="{StaticResource MaterialDesignRaisedButton}"
+                        Click="ReturnFromCustomer_Click"/>
+            </StackPanel>
+        </materialDesign:Card>
+        <materialDesign:Card Grid.Row="1" Padding="16" UniformCornerRadius="8">
+            <StackPanel>
+                <TextBlock Text="سجل المرتجعات" Style="{StaticResource SectionTitle}"/>
+                <DataGrid x:Name="ReturnsGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                          CanUserAddRows="False" GridLinesVisibility="Horizontal"
+                          Style="{StaticResource MaterialDesignDataGrid}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="التاريخ" Width="100">
+                            <DataGridTextColumn.Binding><Binding Path="ReturnDate" StringFormat="dd/MM/yyyy"/></DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="النوع" Binding="{Binding ReturnType}" Width="120"/>
+                        <DataGridTextColumn Header="المنتج" Binding="{Binding Product.Name}" Width="*"/>
+                        <DataGridTextColumn Header="الكمية" Binding="{Binding Quantity}" Width="65"/>
+                        <DataGridTextColumn Header="السعر" Width="100">
+                            <DataGridTextColumn.Binding><Binding Path="UnitPrice" StringFormat="{}{0:N2} ج"/></DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="الإجمالي" Width="110">
+                            <DataGridTextColumn.Binding><Binding Path="TotalPrice" StringFormat="{}{0:N2} ج"/></DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="ضمان" Binding="{Binding IsWarrantyClaim}" Width="70"/>
+                        <DataGridTextColumn Header="السبب" Binding="{Binding Reason}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </materialDesign:Card>
+    </Grid>
+</Page>

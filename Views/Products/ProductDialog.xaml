@@ -1,0 +1,108 @@
+<Window x:Class="NassefStore.Views.Products.ProductDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="منتج" Height="530" Width="440"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="White" FlowDirection="RightToLeft">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="DialogTitle" Grid.Row="0" Text="إضافة منتج"
+                   FontSize="20" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"
+                   Margin="0,0,0,20"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+
+                <TextBox x:Name="TxtName"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         materialDesign:HintAssist.Hint="اسم المنتج *"
+                         Margin="0,0,0,12"/>
+
+                <ComboBox x:Name="CmbCategory"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          materialDesign:HintAssist.Hint="الفئة *"
+                          DisplayMemberPath="Name" SelectedValuePath="Id"
+                          Margin="0,0,0,12"/>
+
+                <!-- سعر الشراء / سعر البيع -->
+                <Grid Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="TxtCostPrice" Grid.Column="0"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             materialDesign:HintAssist.Hint="سعر الشراء (جنيه) *"/>
+                    <TextBox x:Name="TxtSellPrice" Grid.Column="2"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             materialDesign:HintAssist.Hint="سعر البيع (جنيه) *"/>
+                </Grid>
+
+                <!-- الكمية / الحد الأدنى -->
+                <Grid Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="TxtStock" Grid.Column="0"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             materialDesign:HintAssist.Hint="الكمية الحالية *"/>
+                    <TextBox x:Name="TxtMinStock" Grid.Column="2"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             materialDesign:HintAssist.Hint="الحد الأدنى للتنبيه"/>
+                </Grid>
+
+                <!-- الوحدة / الضمان -->
+                <Grid Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="CmbUnit" Grid.Column="0"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                              materialDesign:HintAssist.Hint="الوحدة">
+                        <ComboBoxItem Content="قطعة" IsSelected="True"/>
+                        <ComboBoxItem Content="متر"/>
+                        <ComboBoxItem Content="كيلو"/>
+                        <ComboBoxItem Content="كرتونة"/>
+                        <ComboBoxItem Content="رول"/>
+                        <ComboBoxItem Content="لتر"/>
+                        <ComboBoxItem Content="طقم"/>
+                    </ComboBox>
+                    <TextBox x:Name="TxtWarranty" Grid.Column="2"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             materialDesign:HintAssist.Hint="ضمان (شهور)"/>
+                </Grid>
+
+                <TextBox x:Name="TxtBarcode"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         materialDesign:HintAssist.Hint="باركود (اختياري)"
+                         Margin="0,0,0,12"/>
+
+                <TextBox x:Name="TxtDescription"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         materialDesign:HintAssist.Hint="وصف (اختياري)"
+                         Height="60" TextWrapping="Wrap" AcceptsReturn="True"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal"
+                    HorizontalAlignment="Left" Margin="0,16,0,0">
+            <Button Content="حفظ المنتج"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Click="Save_Click" Margin="0,0,8,0"/>
+            <Button Content="إلغاء"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>

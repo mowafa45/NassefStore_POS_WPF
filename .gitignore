@@ -1,0 +1,33 @@
+# Build results
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Local SQLite databases (if ever created inside the repo)
+*.db
+*.db-shm
+*.db-wal
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Publish output
+publish/
+*.pubxml
+*.pubxml.user
